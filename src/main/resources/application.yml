@@ -5,4 +5,5 @@ spring:
     username: guest
     password: guest
   # custom config for queue (exchange with the same name created by default)
-  rabbitmq-queue: my_queue
+  rabbitmq-first-queue: my_queue_1
+  rabbitmq-second-queue: my_queue_2

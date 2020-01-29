@@ -9,9 +9,13 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class Receiver {
 
-    // listening to queue defined in configuration
-    @RabbitListener(queues = "${spring.rabbitmq-queue}")
-    public void listen(String inComingMessageText) {
-        log.info("Reading message with text: {}", inComingMessageText);
+    @RabbitListener(queues = "#{firstQueue.name}")
+    public void listenToFirstQueue(String in) {
+        log.info("Reading message with text: {} from first queue", in);
+    }
+
+    @RabbitListener(queues = "#{secondQueue.name}")
+    public void listenToSecondQueue(String in) {
+        log.info("Reading message with text: {} from second queue", in);
     }
 }
