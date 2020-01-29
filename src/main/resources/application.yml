@@ -4,6 +4,6 @@ spring:
     port: 5672
     username: guest
     password: guest
-  # custom config for queue (exchange with the same name created by default)
+  # custom config for queues
   rabbitmq-first-queue: my_queue_1
   rabbitmq-second-queue: my_queue_2
