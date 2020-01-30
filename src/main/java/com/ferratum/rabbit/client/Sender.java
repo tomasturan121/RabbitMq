@@ -2,6 +2,7 @@ package com.ferratum.rabbit.client;
 
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.FanoutExchange;
+import org.springframework.amqp.core.HeadersExchange;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.core.Queue;
@@ -9,6 +10,8 @@ import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.ferratum.rabbit.configuration.HeadersRoutingConfiguration;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,6 +22,7 @@ public class Sender {
     private final FanoutExchange fanoutExchange;
     private final DirectExchange directExchange;
     private final TopicExchange topicExchange;
+    private final HeadersExchange headersExchange;
 
     private final Queue simpleQueue;
     private final RabbitTemplate rabbitTemplate;
@@ -28,11 +32,13 @@ public class Sender {
             FanoutExchange fanoutExchange,
             DirectExchange directExchange,
             TopicExchange topicExchange,
+            HeadersExchange headersExchange,
             Queue simpleQueue,
             RabbitTemplate rabbitTemplate) {
         this.fanoutExchange = fanoutExchange;
         this.directExchange = directExchange;
         this.topicExchange = topicExchange;
+        this.headersExchange = headersExchange;
         this.simpleQueue = simpleQueue;
         this.rabbitTemplate = rabbitTemplate;
     }
@@ -66,13 +72,29 @@ public class Sender {
     }
 
     public void topicRoute(String routingKey, String messageText) {
-        log.info("Sending message with routing key: {} and text: {} to Topic exchange", routingKey, messageText);
+        log.info("Sending message with routing key: {} and text: {} to Topic Exchange", routingKey, messageText);
         final Message message = new Message(messageText.getBytes(), createProperties());
 
         // send message to @Autowired direct exchange defined in configuration
         rabbitTemplate.convertAndSend(topicExchange.getName(), routingKey, message);
         log.info("Message with routing key: {} and text: {} has been sent to Topic Exchange of RabbitMQ", routingKey,
                 messageText);
+    }
+
+    public void headerRequest(String headerValue, String messageText) {
+        log.info("Sending message with header value: {} and text: {} to Headers Exchange", headerValue, messageText);
+
+        // create message properties
+        final MessageProperties messageProperties = new MessageProperties();
+        messageProperties.setContentType(MessageProperties.CONTENT_TYPE_TEXT_PLAIN);
+        // set header
+        messageProperties.setHeader(HeadersRoutingConfiguration.HEADER_NAME, headerValue);
+        // set properties to message
+        final Message message = new Message(messageText.getBytes(), messageProperties);
+        // send message to @Autowired direct exchange defined in configuration
+        rabbitTemplate.convertAndSend(headersExchange.getName(), "ignoredKey", message);
+        log.info("Message with header value: {} and text: {} has been sent to Headers Exchange of RabbitMQ",
+                headerValue, messageText);
     }
 
     // message properties creation method

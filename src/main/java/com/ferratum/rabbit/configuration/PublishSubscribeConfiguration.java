@@ -20,7 +20,7 @@ public class PublishSubscribeConfiguration {
 
     @Bean
     public FanoutExchange fanoutExchange() {
-        return new FanoutExchange("fanout_Exchange", Boolean.TRUE, Boolean.FALSE);
+        return new FanoutExchange("fanout_exchange", Boolean.TRUE, Boolean.FALSE);
     }
 
     @Bean

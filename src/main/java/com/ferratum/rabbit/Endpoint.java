@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ferratum.rabbit.api.HeaderRequest;
 import com.ferratum.rabbit.api.RouteRequest;
 import com.ferratum.rabbit.service.SenderService;
 
@@ -47,5 +48,10 @@ public class Endpoint {
     @PostMapping("/topicRoute")
     public void topicRoute(@RequestBody RouteRequest request) {
         senderService.topicRoute(request);
+    }
+
+    @PostMapping("/headersRoute")
+    public void headersRoute(@RequestBody HeaderRequest request) {
+        senderService.headerRoute(request);
     }
 }

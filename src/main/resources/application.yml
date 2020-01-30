@@ -29,3 +29,11 @@ queue-config:
     topic-routing-queue-2:
       name: topic_routing_queue_2
       routing-pattern: "*.second.#"
+  # header routing
+  header-routing:
+    header-routing-queue-1:
+      name: header_routing_queue_1
+      header: first_header
+    header-routing-queue-2:
+      name: header_routing_queue_2
+      header: second_header

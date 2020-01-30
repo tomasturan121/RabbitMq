@@ -61,4 +61,15 @@ public class Receiver {
     public void listenToSecondTopicRouteQueue(String in) {
         log.info("Reading message with text: {} from second topic routing queue", in);
     }
+
+    // headers routing
+    @RabbitListener(queues = "#{firstHeadersRoutingQueue.name}")
+    public void listenToFirstHeadersRouteQueue(String in) {
+        log.info("Reading message with text: {} from first headers routing queue", in);
+    }
+
+    @RabbitListener(queues = "#{secondHeadersRoutingQueue.name}")
+    public void listenToSecondHeadersRouteQueue(String in) {
+        log.info("Reading message with text: {} from second headers routing queue", in);
+    }
 }
