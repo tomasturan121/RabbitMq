@@ -81,7 +81,7 @@ public class Sender {
                 messageText);
     }
 
-    public void headerRequest(String headerValue, String messageText) {
+    public void headerRoute(String headerValue, String messageText) {
         log.info("Sending message with header value: {} and text: {} to Headers Exchange", headerValue, messageText);
 
         // create message properties
