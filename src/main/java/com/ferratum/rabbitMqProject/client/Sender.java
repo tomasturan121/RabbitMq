@@ -1,5 +1,6 @@
 package com.ferratum.rabbitMqProject.client;
 
+import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageProperties;
@@ -14,23 +15,36 @@ import lombok.extern.slf4j.Slf4j;
 public class Sender {
 
     private final FanoutExchange fanoutExchange;
+    private final DirectExchange directExchange;
     private final RabbitTemplate rabbitTemplate;
 
     @Autowired
-    public Sender(FanoutExchange fanoutExchange, RabbitTemplate rabbitTemplate) {
+    public Sender(FanoutExchange fanoutExchange, DirectExchange directExchange, RabbitTemplate rabbitTemplate) {
         this.fanoutExchange = fanoutExchange;
+        this.directExchange = directExchange;
         this.rabbitTemplate = rabbitTemplate;
     }
 
-    public void send(String messageText) {
-        log.info("Sending message with text: {}", messageText);
-        // setting properties of message
+    public void publish(String messageText) {
+        log.info("Publishing message with text: {}", messageText);
+        final Message message = new Message(messageText.getBytes(), createProperties());
+        // send message to @Autowired fanout exchange defined in configuration
+        rabbitTemplate.convertAndSend(fanoutExchange.getName(), "ignoredRoutingKey", message);
+        log.info("Message with text: {} has been published to RabbitMQ", messageText);
+    }
+
+    public void route(String routingKey, String messageText) {
+        log.info("Sending message with routing key: {} and text: {}", routingKey, messageText);
+        final Message message = new Message(messageText.getBytes(), createProperties());
+        // send message to @Autowired direct exchange defined in configuration
+        rabbitTemplate.convertAndSend(directExchange.getName(), routingKey, message);
+        log.info("Message with routing key: {} and text: {} has been sent to RabbitMQ", routingKey, messageText);
+    }
+
+    private static MessageProperties createProperties() {
         final MessageProperties messageProperties = new MessageProperties();
         messageProperties.setContentType(MessageProperties.CONTENT_TYPE_TEXT_PLAIN);
-        // message creation
-        final Message message = new Message(messageText.getBytes(), messageProperties);
-        // send message to @Autowired exchange defined in configuration
-        rabbitTemplate.convertAndSend(fanoutExchange.getName(), "ignoredRoutingKey", message);
-        log.info("Message with text: {} has been sent to RabbitMQ", messageText);
+
+        return messageProperties;
     }
 }

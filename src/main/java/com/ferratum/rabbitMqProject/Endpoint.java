@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ferratum.rabbitMqProject.api.RouteRequest;
 import com.ferratum.rabbitMqProject.api.SenderRequest;
 import com.ferratum.rabbitMqProject.service.SenderService;
 
@@ -23,10 +24,17 @@ public class Endpoint {
         this.senderService = senderService;
     }
 
-    @PostMapping("/send")
-    public void send(@RequestBody SenderRequest request) {
+    @PostMapping("/publish")
+    public void publish(@RequestBody SenderRequest request) {
         log.info("Calling /send with request: {}", request);
-        senderService.send(request.getTextMessage());
+        senderService.publish(request.getMessageText());
+        log.info("Call to /send with request: {} successful", request);
+    }
+
+    @PostMapping("/route")
+    public void route(@RequestBody RouteRequest request) {
+        log.info("Calling /send with request: {}", request);
+        senderService.route(request);
         log.info("Call to /send with request: {} successful", request);
     }
 }

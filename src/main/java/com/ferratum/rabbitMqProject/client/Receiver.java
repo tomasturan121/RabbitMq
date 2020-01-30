@@ -9,13 +9,25 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class Receiver {
 
-    @RabbitListener(queues = "#{firstQueue.name}")
-    public void listenToFirstQueue(String in) {
-        log.info("Reading message with text: {} from first queue", in);
+    // publish/subscribe listeners
+    @RabbitListener(queues = "#{firstSubscriberQueue.name}")
+    public void listenToFirstSubscriberQueue(String in) {
+        log.info("Reading message with text: {} from first subscriber queue", in);
     }
 
-    @RabbitListener(queues = "#{secondQueue.name}")
-    public void listenToSecondQueue(String in) {
-        log.info("Reading message with text: {} from second queue", in);
+    @RabbitListener(queues = "#{secondSubscriberQueue.name}")
+    public void listenToSecondSubscriberQueue(String in) {
+        log.info("Reading message with text: {} from second subscriber queue", in);
+    }
+
+    // routing with routing-key listeners
+    @RabbitListener(queues = "#{firstRoutingQueue.name}")
+    public void listenToFirstRouteQueue(String in) {
+        log.info("Reading message with text: {} from first route queue", in);
+    }
+
+    @RabbitListener(queues = "#{secondRoutingQueue.name}")
+    public void listenToSecondRouteQueue(String in) {
+        log.info("Reading message with text: {} from second route queue", in);
     }
 }

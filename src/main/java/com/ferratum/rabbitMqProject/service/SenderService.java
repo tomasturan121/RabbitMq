@@ -3,6 +3,7 @@ package com.ferratum.rabbitMqProject.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ferratum.rabbitMqProject.api.RouteRequest;
 import com.ferratum.rabbitMqProject.client.Sender;
 
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +19,11 @@ public class SenderService {
         this.sender = sender;
     }
 
-    public void send(String messageText) {
-        sender.send(messageText);
+    public void publish(String messageText) {
+        sender.publish(messageText);
+    }
+
+    public void route(RouteRequest request) {
+        sender.route(request.getRoutingKey(), request.getMessageText());
     }
 }
