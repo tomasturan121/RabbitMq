@@ -41,7 +41,7 @@ public class Sender {
         log.info("Sending message with text: {}", messageText);
         final Message message = new Message(messageText.getBytes(), createProperties());
 
-        // send message to default Exchange - created automatically with same name as defined Queue
+        // send message to default Exchange - created automatically
         rabbitTemplate.convertAndSend(simpleQueue.getName(), message);
         log.info("Message with text: {} has been send to Default Exchange of RabbitMQ", messageText);
     }
