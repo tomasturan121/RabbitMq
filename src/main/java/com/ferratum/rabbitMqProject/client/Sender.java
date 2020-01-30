@@ -75,6 +75,7 @@ public class Sender {
                 messageText);
     }
 
+    // message properties creation method
     private static MessageProperties createProperties() {
         final MessageProperties messageProperties = new MessageProperties();
         messageProperties.setContentType(MessageProperties.CONTENT_TYPE_TEXT_PLAIN);
