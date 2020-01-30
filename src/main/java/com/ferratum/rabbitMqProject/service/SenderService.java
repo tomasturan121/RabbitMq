@@ -26,4 +26,8 @@ public class SenderService {
     public void route(RouteRequest request) {
         sender.route(request.getRoutingKey(), request.getMessageText());
     }
+
+    public void topicRoute(RouteRequest request) {
+        sender.topicRoute(request.getRoutingKey(), request.getMessageText());
+    }
 }

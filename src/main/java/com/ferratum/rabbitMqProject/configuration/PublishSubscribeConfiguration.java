@@ -12,10 +12,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class PublishSubscribeConfiguration {
 
-    @Value("${spring.config.publish-subscribe.subscriber-queue-1}")
+    @Value("${queue-config.publish-subscribe.subscriber-queue-1.name}")
     private String firstSubscriberQueueName;
 
-    @Value("${spring.config.publish-subscribe.subscriber-queue-2}")
+    @Value("${queue-config.publish-subscribe.subscriber-queue-2.name}")
     private String secondSubscriberQueueName;
 
     @Bean

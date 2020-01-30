@@ -30,4 +30,15 @@ public class Receiver {
     public void listenToSecondRouteQueue(String in) {
         log.info("Reading message with text: {} from second route queue", in);
     }
+
+    // topic routing with routing-key listeners
+    @RabbitListener(queues = "#{firstTopicRoutingQueue.name}")
+    public void listenToFirstTopicRouteQueue(String in) {
+        log.info("Reading message with text: {} from first topic routing queue", in);
+    }
+
+    @RabbitListener(queues = "#{secondTopicRoutingQueue.name}")
+    public void listenToSecondTopicRouteQueue(String in) {
+        log.info("Reading message with text: {} from second topic routing queue", in);
+    }
 }

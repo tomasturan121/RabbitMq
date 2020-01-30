@@ -4,17 +4,28 @@ spring:
     port: 5672
     username: guest
     password: guest
-  # custom config for queues
-  config:
-    # publish/subscribe
-    publish-subscribe:
-      subscriber-queue-1: subscriber_queue_1
-      subscriber-queue-2: subscriber_queue_2
-    # routing according to routing key
-    routing-with-key:
-      routing-queue-1:
-        name: routing_queue_1
-        routing-key: first_key
-      routing-queue-2:
-        name: routing_queue_2
-        routing-key: second_key
+
+# custom config for queues
+queue-config:
+  # publish/subscribe
+  publish-subscribe:
+    subscriber-queue-1:
+      name: subscriber_queue_1
+    subscriber-queue-2:
+      name: subscriber_queue_2
+  # routing according to routing key
+  routing-with-key:
+    routing-queue-1:
+      name: routing_queue_1
+      routing-key: first.key
+    routing-queue-2:
+      name: routing_queue_2
+      routing-key: second.key
+  # topic routing
+  topic-routing:
+    topic-routing-queue-1:
+      name: topic_routing_queue_1
+      routing-pattern: "*.first.*"
+    topic-routing-queue-2:
+      name: topic_routing_queue_2
+      routing-pattern: "*.second.#"
