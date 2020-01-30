@@ -1,4 +1,4 @@
-package com.ferratum.rabbitMqProject.configuration;
+package com.ferratum.rabbit.configuration;
 
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
@@ -8,7 +8,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.ferratum.rabbitMqProject.api.config.QueueRoutingConfig;
+import com.ferratum.rabbit.api.config.QueueRoutingConfig;
 
 
 @Configuration

@@ -1,4 +1,4 @@
-package com.ferratum.rabbitMqProject.api;
+package com.ferratum.rabbit.api;
 
 import lombok.Data;
 

@@ -1,4 +1,4 @@
-package com.ferratum.rabbitMqProject;
+package com.ferratum.rabbit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ferratum.rabbitMqProject.api.RouteRequest;
-import com.ferratum.rabbitMqProject.service.SenderService;
+import com.ferratum.rabbit.api.RouteRequest;
+import com.ferratum.rabbit.service.SenderService;
 
 import lombok.extern.slf4j.Slf4j;
 

@@ -1,4 +1,4 @@
-package com.ferratum.rabbitMqProject.configuration;
+package com.ferratum.rabbit.configuration;
 
 import org.springframework.amqp.core.Queue;
 import org.springframework.context.annotation.Bean;

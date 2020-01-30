@@ -1,10 +1,10 @@
-package com.ferratum.rabbitMqProject;
+package com.ferratum.rabbit;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class RabbitMqProjectApplicationTests {
+class RabbitApplicationTests {
 
 	@Test
 	void contextLoads() {

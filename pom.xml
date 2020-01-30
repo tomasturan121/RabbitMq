@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.ferratum</groupId>
-    <artifactId>rabbitMqProject</artifactId>
+    <artifactId>rabbit</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>rabbitMqProject</name>
+    <name>rabbit</name>
     <description>Demo project for RabbitMQ</description>
 
     <properties>
