@@ -1,6 +1,7 @@
 package com.ferratum.rabbitMqProject;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,16 @@ public class Endpoint {
     @Autowired
     public Endpoint(SenderService senderService) {
         this.senderService = senderService;
+    }
+
+    @PostMapping("/sendSimple")
+    public void send(@RequestBody RouteRequest request) {
+        senderService.sendSimple(request.getMessageText());
+    }
+
+    @GetMapping("/readSimple")
+    public String readSimple() {
+        return senderService.readSimple();
     }
 
     @PostMapping("/publish")
