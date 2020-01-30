@@ -44,6 +44,6 @@ public class SenderService {
     }
 
     public void headerRoute(HeaderRequest request) {
-        sender.headerRequest(request.getHeaderValue(), request.getMessageText());
+        sender.headerRoute(request.getHeaderValue(), request.getMessageText());
     }
 }
