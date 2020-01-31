@@ -122,7 +122,10 @@ public class Sender {
                 headerValue, messageText);
     }
 
-    // message properties creation method
+    /**
+     * method for creating simple message properties
+     * @return simple MessageProperties object
+     */
     private static MessageProperties createProperties() {
         final MessageProperties messageProperties = new MessageProperties();
         messageProperties.setContentType(MessageProperties.CONTENT_TYPE_TEXT_PLAIN);
