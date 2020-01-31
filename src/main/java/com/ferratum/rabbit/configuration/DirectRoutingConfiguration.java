@@ -8,31 +8,31 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.ferratum.rabbit.api.config.QueueRoutingConfig;
+import com.ferratum.rabbit.api.config.DirectRoutingConfig;
 
 
 @Configuration
-public class RoutingWithKeyConfiguration {
+public class DirectRoutingConfiguration {
 
     @Bean
     @ConfigurationProperties(prefix = "queue-config.routing-with-key.routing-queue-1")
-    public QueueRoutingConfig firstRoutingQueueConfig() {
-        return new QueueRoutingConfig();
+    public DirectRoutingConfig firstRoutingQueueConfig() {
+        return new DirectRoutingConfig();
     }
 
     @Bean
     @ConfigurationProperties(prefix = "queue-config.routing-with-key.routing-queue-2")
-    public QueueRoutingConfig secondRoutingQueueConfig() {
-        return new QueueRoutingConfig();
+    public DirectRoutingConfig secondRoutingQueueConfig() {
+        return new DirectRoutingConfig();
     }
 
     @Bean
-    public Queue firstRoutingQueue(QueueRoutingConfig firstRoutingQueueConfig) {
+    public Queue firstRoutingQueue(DirectRoutingConfig firstRoutingQueueConfig) {
         return new Queue(firstRoutingQueueConfig.getName(), Boolean.TRUE);
     }
 
     @Bean
-    public Queue secondRoutingQueue(QueueRoutingConfig secondRoutingQueueConfig) {
+    public Queue secondRoutingQueue(DirectRoutingConfig secondRoutingQueueConfig) {
         return new Queue(secondRoutingQueueConfig.getName(), Boolean.TRUE);
     }
 
@@ -43,13 +43,13 @@ public class RoutingWithKeyConfiguration {
 
     @Bean
     public Binding firstRouteBinding(DirectExchange directExchange, Queue firstRoutingQueue,
-            QueueRoutingConfig firstRoutingQueueConfig) {
+            DirectRoutingConfig firstRoutingQueueConfig) {
         return BindingBuilder.bind(firstRoutingQueue).to(directExchange).with(firstRoutingQueueConfig.getRoutingKey());
     }
 
     @Bean
     public Binding secondRouteBinding(DirectExchange directExchange, Queue secondRoutingQueue,
-            QueueRoutingConfig secondRoutingQueueConfig) {
+            DirectRoutingConfig secondRoutingQueueConfig) {
         return BindingBuilder.bind(secondRoutingQueue).to(directExchange)
                 .with(secondRoutingQueueConfig.getRoutingKey());
     }
