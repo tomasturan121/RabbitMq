@@ -8,7 +8,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.ferratum.rabbit.api.config.QueueHeaderRoutingConfig;
+import com.ferratum.rabbit.api.config.HeadersRoutingConfig;
 
 @Configuration
 public class HeadersRoutingConfiguration {
@@ -17,14 +17,14 @@ public class HeadersRoutingConfiguration {
 
     @Bean
     @ConfigurationProperties(prefix = "queue-config.header-routing.header-routing-queue-1")
-    public QueueHeaderRoutingConfig firstHeadersRoutingConfig() {
-        return new QueueHeaderRoutingConfig();
+    public HeadersRoutingConfig firstHeadersRoutingConfig() {
+        return new HeadersRoutingConfig();
     }
 
     @Bean
     @ConfigurationProperties(prefix = "queue-config.header-routing.header-routing-queue-2")
-    public QueueHeaderRoutingConfig secondHeadersRoutingConfig() {
-        return new QueueHeaderRoutingConfig();
+    public HeadersRoutingConfig secondHeadersRoutingConfig() {
+        return new HeadersRoutingConfig();
     }
 
     @Bean
@@ -33,26 +33,26 @@ public class HeadersRoutingConfiguration {
     }
 
     @Bean
-    public Queue firstHeadersRoutingQueue(QueueHeaderRoutingConfig firstHeadersRoutingConfig) {
+    public Queue firstHeadersRoutingQueue(HeadersRoutingConfig firstHeadersRoutingConfig) {
         return new Queue(firstHeadersRoutingConfig.getName(), Boolean.TRUE);
     }
 
     @Bean
-    public Queue secondHeadersRoutingQueue(QueueHeaderRoutingConfig secondHeadersRoutingConfig) {
+    public Queue secondHeadersRoutingQueue(HeadersRoutingConfig secondHeadersRoutingConfig) {
         return new Queue(secondHeadersRoutingConfig.getName(), Boolean.TRUE);
     }
 
 
     @Bean
     public Binding firstHeaderRouteBinding(HeadersExchange headersExchange, Queue firstHeadersRoutingQueue,
-            QueueHeaderRoutingConfig firstHeadersRoutingConfig) {
+            HeadersRoutingConfig firstHeadersRoutingConfig) {
         return BindingBuilder.bind(firstHeadersRoutingQueue).to(headersExchange).where(HEADER_NAME)
                 .matches(firstHeadersRoutingConfig.getHeader());
     }
 
     @Bean
     public Binding secondHeaderRouteBinding(HeadersExchange headersExchange, Queue secondHeadersRoutingQueue,
-            QueueHeaderRoutingConfig secondHeadersRoutingConfig) {
+            HeadersRoutingConfig secondHeadersRoutingConfig) {
         return BindingBuilder.bind(secondHeadersRoutingQueue).to(headersExchange).where(HEADER_NAME)
                 .matches(secondHeadersRoutingConfig.getHeader());
     }

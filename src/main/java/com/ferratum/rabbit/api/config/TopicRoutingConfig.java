@@ -7,9 +7,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class QueueHeaderRoutingConfig {
+public class TopicRoutingConfig {
 
     private String name;
-    private String header;
-
+    private String routingPattern;
 }

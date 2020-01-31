@@ -43,55 +43,73 @@ public class Sender {
         this.rabbitTemplate = rabbitTemplate;
     }
 
+    /**
+     * sending with default exchange
+     * @param messageText message payload
+     */
     public void sendSimple(String messageText) {
         log.info("Sending message with text: {}", messageText);
         final Message message = new Message(messageText.getBytes(), createProperties());
 
-        // send message to default Exchange - created automatically
         rabbitTemplate.convertAndSend(simpleQueue.getName(), message);
         log.info("Message with text: {} has been send to Default Exchange of RabbitMQ", messageText);
     }
 
+    /**
+     * publishing with fanout exchange
+     * @param messageText message payload
+     */
     public void publish(String messageText) {
         log.info("Publishing message with text: {}", messageText);
         final Message message = new Message(messageText.getBytes(), createProperties());
 
-        // send message to @Autowired fanout exchange defined in configuration
         rabbitTemplate.convertAndSend(fanoutExchange.getName(), "ignoredRoutingKey", message);
         log.info("Message with text: {} has been published to Fanout Exchange of RabbitMQ", messageText);
     }
 
+    /**
+     * routing according to routing key value with direct exchange
+     * @param routingKey routing key for direct exchange object
+     * @param messageText message payload
+     */
     public void route(String routingKey, String messageText) {
         log.info("Sending message with routing key: {} and text: {}", routingKey, messageText);
         final Message message = new Message(messageText.getBytes(), createProperties());
 
-        // send message to @Autowired direct exchange defined in configuration
         rabbitTemplate.convertAndSend(directExchange.getName(), routingKey, message);
         log.info("Message with routing key: {} and text: {} has been sent to Direct Exchange RabbitMQ", routingKey,
                 messageText);
     }
 
+    /**
+     * routing according to routing pattern with topic exchange
+     * @param routingKey routing key for topic exchange object
+     * @param messageText message payload
+     */
     public void topicRoute(String routingKey, String messageText) {
         log.info("Sending message with routing key: {} and text: {} to Topic Exchange", routingKey, messageText);
         final Message message = new Message(messageText.getBytes(), createProperties());
 
-        // send message to @Autowired direct exchange defined in configuration
         rabbitTemplate.convertAndSend(topicExchange.getName(), routingKey, message);
         log.info("Message with routing key: {} and text: {} has been sent to Topic Exchange of RabbitMQ", routingKey,
                 messageText);
     }
 
+    /**
+     * routing according to value from message headers with headers exchange
+     * @param headerValue header value for headers exchange object
+     * @param messageText message payload
+     */
     public void headerRoute(String headerValue, String messageText) {
         log.info("Sending message with header value: {} and text: {} to Headers Exchange", headerValue, messageText);
 
-        // create message properties
+        // create message properties with custom header
         final MessageProperties messageProperties = new MessageProperties();
         messageProperties.setContentType(MessageProperties.CONTENT_TYPE_TEXT_PLAIN);
-        // set header
         messageProperties.setHeader(HeadersRoutingConfiguration.HEADER_NAME, headerValue);
-        // set properties to message
+
         final Message message = new Message(messageText.getBytes(), messageProperties);
-        // send message to @Autowired direct exchange defined in configuration
+
         rabbitTemplate.convertAndSend(headersExchange.getName(), "ignoredKey", message);
         log.info("Message with header value: {} and text: {} has been sent to Headers Exchange of RabbitMQ",
                 headerValue, messageText);

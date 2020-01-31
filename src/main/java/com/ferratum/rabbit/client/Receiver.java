@@ -22,14 +22,12 @@ public class Receiver {
         this.rabbitTemplate = rabbitTemplate;
     }
 
-    // simple receive using RabbitTemplate
-    public String simpleListen() {
+    public String simpleRead() {
         final Message message = rabbitTemplate.receive(simpleQueue.getName());
         log.info("Message read from simple queue: {}", message);
         return (message == null) ? "No message text found!" : new String(message.getBody());
     }
 
-    // publish/subscribe listeners
     @RabbitListener(queues = "#{firstSubscriberQueue.name}")
     public void listenToFirstSubscriberQueue(String in) {
         log.info("Reading message with text: {} from first subscriber queue", in);
@@ -40,7 +38,6 @@ public class Receiver {
         log.info("Reading message with text: {} from second subscriber queue", in);
     }
 
-    // routing with routing-key listeners
     @RabbitListener(queues = "#{firstRoutingQueue.name}")
     public void listenToFirstRouteQueue(String in) {
         log.info("Reading message with text: {} from first route queue", in);
@@ -51,7 +48,6 @@ public class Receiver {
         log.info("Reading message with text: {} from second route queue", in);
     }
 
-    // topic routing with routing-key listeners
     @RabbitListener(queues = "#{firstTopicRoutingQueue.name}")
     public void listenToFirstTopicRouteQueue(String in) {
         log.info("Reading message with text: {} from first topic routing queue", in);
@@ -62,7 +58,6 @@ public class Receiver {
         log.info("Reading message with text: {} from second topic routing queue", in);
     }
 
-    // headers routing
     @RabbitListener(queues = "#{firstHeadersRoutingQueue.name}")
     public void listenToFirstHeadersRouteQueue(String in) {
         log.info("Reading message with text: {} from first headers routing queue", in);

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.ferratum.rabbit.api.HeaderRequest;
 import com.ferratum.rabbit.api.RouteRequest;
+import com.ferratum.rabbit.api.SimpleRequest;
 import com.ferratum.rabbit.client.Receiver;
 import com.ferratum.rabbit.client.Sender;
 
@@ -23,16 +24,16 @@ public class SenderService {
         this.receiver = receiver;
     }
 
-    public void sendSimple(String messageText) {
-        sender.sendSimple(messageText);
+    public void sendSimple(SimpleRequest request) {
+        sender.sendSimple(request.getMessageText());
     }
 
     public String readSimple() {
-        return receiver.simpleListen();
+        return receiver.simpleRead();
     }
 
-    public void publish(String messageText) {
-        sender.publish(messageText);
+    public void publish(RouteRequest request) {
+        sender.publish(request.getMessageText());
     }
 
     public void route(RouteRequest request) {

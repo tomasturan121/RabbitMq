@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ferratum.rabbit.api.HeaderRequest;
 import com.ferratum.rabbit.api.RouteRequest;
+import com.ferratum.rabbit.api.SimpleRequest;
 import com.ferratum.rabbit.service.SenderService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -26,8 +27,8 @@ public class Endpoint {
     }
 
     @PostMapping("/sendSimple")
-    public void send(@RequestBody RouteRequest request) {
-        senderService.sendSimple(request.getMessageText());
+    public void send(@RequestBody SimpleRequest request) {
+        senderService.sendSimple(request);
     }
 
     @GetMapping("/readSimple")
@@ -37,7 +38,7 @@ public class Endpoint {
 
     @PostMapping("/publish")
     public void publish(@RequestBody RouteRequest request) {
-        senderService.publish(request.getMessageText());
+        senderService.publish(request);
     }
 
     @PostMapping("/route")
