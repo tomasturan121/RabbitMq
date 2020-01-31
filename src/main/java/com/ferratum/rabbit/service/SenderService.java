@@ -31,7 +31,7 @@ public class SenderService {
     }
 
     public void publish(RoutingRequest request) {
-        sender.publish(request.getMessageText());
+        sender.publish(request.getRoutingKey(), request.getMessageText());
     }
 
     public void directRoute(RoutingRequest request) {
@@ -43,6 +43,6 @@ public class SenderService {
     }
 
     public void headerRoute(RoutingRequest request) {
-        sender.headerRoute(request.getHeaderValue(), request.getMessageText());
+        sender.headerRoute(request.getRoutingKey(), request.getMessageText(), request.getHeaderValue());
     }
 }

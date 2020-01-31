@@ -59,13 +59,14 @@ public class Sender {
     /**
      * publishing with fanout exchange
      *
+     * @param routingKey routing key - ignored in this case, message is being routed to all bound queues
      * @param messageText message payload
      */
-    public void publish(String messageText) {
+    public void publish(String routingKey, String messageText) {
         log.info("Publishing message with text: {}", messageText);
         final Message message = new Message(messageText.getBytes(), createProperties());
 
-        rabbitTemplate.convertAndSend(fanoutExchange.getName(), "ignoredRoutingKey", message);
+        rabbitTemplate.convertAndSend(fanoutExchange.getName(), routingKey, message);
         log.info("Message with text: {} has been published to Fanout Exchange of RabbitMQ", messageText);
     }
 
@@ -102,10 +103,11 @@ public class Sender {
     /**
      * routing according to value from message headers with headers exchange
      *
-     * @param headerValue header value for headers exchange object
+     * @param routingKey routing key - ignored in this case, routing is done through header value
      * @param messageText message payload
+     * @param headerValue header value for headers exchange object
      */
-    public void headerRoute(String headerValue, String messageText) {
+    public void headerRoute(String routingKey, String messageText, String headerValue) {
         log.info("Sending message with header value: {} and text: {} to Headers Exchange", headerValue, messageText);
 
         // create message properties with custom header
@@ -115,7 +117,7 @@ public class Sender {
 
         final Message message = new Message(messageText.getBytes(), messageProperties);
 
-        rabbitTemplate.convertAndSend(headersExchange.getName(), "ignoredKey", message);
+        rabbitTemplate.convertAndSend(headersExchange.getName(), routingKey, message);
         log.info("Message with header value: {} and text: {} has been sent to Headers Exchange of RabbitMQ",
                 headerValue, messageText);
     }
