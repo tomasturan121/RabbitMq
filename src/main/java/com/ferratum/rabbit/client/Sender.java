@@ -45,6 +45,7 @@ public class Sender {
 
     /**
      * sending with default exchange
+     *
      * @param messageText message payload
      */
     public void sendSimple(String messageText) {
@@ -57,6 +58,7 @@ public class Sender {
 
     /**
      * publishing with fanout exchange
+     *
      * @param messageText message payload
      */
     public void publish(String messageText) {
@@ -69,10 +71,11 @@ public class Sender {
 
     /**
      * routing according to routing key value with direct exchange
+     *
      * @param routingKey routing key for direct exchange object
      * @param messageText message payload
      */
-    public void route(String routingKey, String messageText) {
+    public void directRoute(String routingKey, String messageText) {
         log.info("Sending message with routing key: {} and text: {}", routingKey, messageText);
         final Message message = new Message(messageText.getBytes(), createProperties());
 
@@ -83,6 +86,7 @@ public class Sender {
 
     /**
      * routing according to routing pattern with topic exchange
+     *
      * @param routingKey routing key for topic exchange object
      * @param messageText message payload
      */
@@ -97,6 +101,7 @@ public class Sender {
 
     /**
      * routing according to value from message headers with headers exchange
+     *
      * @param headerValue header value for headers exchange object
      * @param messageText message payload
      */

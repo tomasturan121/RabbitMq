@@ -35,11 +35,15 @@ public class PublishSubscribeConfiguration {
 
     @Bean
     public Binding firstSubscriberBinding(FanoutExchange fanoutExchange, Queue firstSubscriberQueue) {
-        return BindingBuilder.bind(firstSubscriberQueue).to(fanoutExchange);
+        return BindingBuilder
+                .bind(firstSubscriberQueue)
+                .to(fanoutExchange);
     }
 
     @Bean
     public Binding secondSubscriberBinding(FanoutExchange fanoutExchange, Queue secondSubscriberQueue) {
-        return BindingBuilder.bind(secondSubscriberQueue).to(fanoutExchange);
+        return BindingBuilder
+                .bind(secondSubscriberQueue)
+                .to(fanoutExchange);
     }
 }

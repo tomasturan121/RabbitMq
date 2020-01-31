@@ -8,30 +8,30 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.ferratum.rabbit.api.config.TopicRoutingConfig;
+import com.ferratum.rabbit.configuration.config.RoutingConfig;
 
 @Configuration
 public class TopicRoutingConfiguration {
 
     @Bean
     @ConfigurationProperties(prefix = "queue-config.topic-routing.topic-routing-queue-1")
-    public TopicRoutingConfig firstTopicRoutingQueueConfig() {
-        return new TopicRoutingConfig();
+    public RoutingConfig firstTopicRoutingQueueConfig() {
+        return new RoutingConfig();
     }
 
     @Bean
     @ConfigurationProperties(prefix = "queue-config.topic-routing.topic-routing-queue-2")
-    public TopicRoutingConfig secondTopicRoutingQueueConfig() {
-        return new TopicRoutingConfig();
+    public RoutingConfig secondTopicRoutingQueueConfig() {
+        return new RoutingConfig();
     }
 
     @Bean
-    public Queue firstTopicRoutingQueue(TopicRoutingConfig firstTopicRoutingQueueConfig) {
+    public Queue firstTopicRoutingQueue(RoutingConfig firstTopicRoutingQueueConfig) {
         return new Queue(firstTopicRoutingQueueConfig.getName(), Boolean.TRUE);
     }
 
     @Bean
-    public Queue secondTopicRoutingQueue(TopicRoutingConfig secondTopicRoutingQueueConfig) {
+    public Queue secondTopicRoutingQueue(RoutingConfig secondTopicRoutingQueueConfig) {
         return new Queue(secondTopicRoutingQueueConfig.getName(), Boolean.TRUE);
     }
 
@@ -41,17 +41,26 @@ public class TopicRoutingConfiguration {
     }
 
     @Bean
-    public Binding firstTopicRouteBinding(TopicExchange topicExchange, Queue firstTopicRoutingQueue,
-            TopicRoutingConfig firstTopicRoutingQueueConfig) {
-        return BindingBuilder.bind(firstTopicRoutingQueue).to(topicExchange)
+    public Binding firstTopicRouteBinding(
+            TopicExchange topicExchange,
+            Queue firstTopicRoutingQueue,
+            RoutingConfig firstTopicRoutingQueueConfig
+    ) {
+        return BindingBuilder
+                .bind(firstTopicRoutingQueue)
+                .to(topicExchange)
                 .with(firstTopicRoutingQueueConfig.getRoutingPattern());
     }
 
     @Bean
-    public Binding secondTopicRouteBinding(TopicExchange topicExchange, Queue secondTopicRoutingQueue,
-            TopicRoutingConfig secondTopicRoutingQueueConfig) {
-        return BindingBuilder.bind(secondTopicRoutingQueue).to(topicExchange)
+    public Binding secondTopicRouteBinding(
+            TopicExchange topicExchange,
+            Queue secondTopicRoutingQueue,
+            RoutingConfig secondTopicRoutingQueueConfig
+    ) {
+        return BindingBuilder
+                .bind(secondTopicRoutingQueue)
+                .to(topicExchange)
                 .with(secondTopicRoutingQueueConfig.getRoutingPattern());
     }
-
 }

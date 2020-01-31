@@ -3,9 +3,7 @@ package com.ferratum.rabbit.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ferratum.rabbit.api.HeaderRequest;
-import com.ferratum.rabbit.api.RouteRequest;
-import com.ferratum.rabbit.api.SimpleRequest;
+import com.ferratum.rabbit.api.RoutingRequest;
 import com.ferratum.rabbit.client.Receiver;
 import com.ferratum.rabbit.client.Sender;
 
@@ -24,27 +22,27 @@ public class SenderService {
         this.receiver = receiver;
     }
 
-    public void sendSimple(SimpleRequest request) {
-        sender.sendSimple(request.getMessageText());
-    }
-
     public String readSimple() {
         return receiver.simpleRead();
     }
 
-    public void publish(RouteRequest request) {
+    public void sendSimple(RoutingRequest request) {
+        sender.sendSimple(request.getMessageText());
+    }
+
+    public void publish(RoutingRequest request) {
         sender.publish(request.getMessageText());
     }
 
-    public void route(RouteRequest request) {
-        sender.route(request.getRoutingKey(), request.getMessageText());
+    public void directRoute(RoutingRequest request) {
+        sender.directRoute(request.getRoutingKey(), request.getMessageText());
     }
 
-    public void topicRoute(RouteRequest request) {
+    public void topicRoute(RoutingRequest request) {
         sender.topicRoute(request.getRoutingKey(), request.getMessageText());
     }
 
-    public void headerRoute(HeaderRequest request) {
+    public void headerRoute(RoutingRequest request) {
         sender.headerRoute(request.getHeaderValue(), request.getMessageText());
     }
 }

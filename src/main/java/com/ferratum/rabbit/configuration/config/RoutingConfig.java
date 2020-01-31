@@ -1,4 +1,4 @@
-package com.ferratum.rabbit.api.config;
+package com.ferratum.rabbit.configuration.config;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,9 +7,10 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class HeadersRoutingConfig {
+public class RoutingConfig {
 
     private String name;
+    private String routingKey;
+    private String routingPattern;
     private String header;
-
 }
