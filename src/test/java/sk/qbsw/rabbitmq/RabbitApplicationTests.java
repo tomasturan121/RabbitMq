@@ -1,4 +1,4 @@
-package com.ferratum.rabbit;
+package sk.qbsw.rabbitmq;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,4 +1,4 @@
-package com.ferratum.rabbit.client;
+package sk.qbsw.rabbitmq.client;
 
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.Queue;

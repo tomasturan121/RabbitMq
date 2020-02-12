@@ -1,4 +1,4 @@
-package com.ferratum.rabbit.client;
+package sk.qbsw.rabbitmq.client;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -18,7 +18,7 @@ import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.util.StringUtils;
 
-import com.ferratum.rabbit.configuration.HeadersRoutingConfiguration;
+import sk.qbsw.rabbitmq.configuration.HeadersRoutingConfiguration;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SenderTest {

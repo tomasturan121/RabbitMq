@@ -1,4 +1,4 @@
-package com.ferratum.rabbit.configuration;
+package sk.qbsw.rabbitmq.configuration;
 
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;

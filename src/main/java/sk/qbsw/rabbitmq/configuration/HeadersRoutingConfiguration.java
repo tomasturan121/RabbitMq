@@ -1,4 +1,4 @@
-package com.ferratum.rabbit.configuration;
+package sk.qbsw.rabbitmq.configuration;
 
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
@@ -8,7 +8,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.ferratum.rabbit.configuration.config.RoutingConfig;
+import sk.qbsw.rabbitmq.configuration.config.RoutingConfig;
 
 @Configuration
 public class HeadersRoutingConfiguration {
@@ -44,11 +44,8 @@ public class HeadersRoutingConfiguration {
 
 
     @Bean
-    public Binding firstHeaderRouteBinding(
-            HeadersExchange headersExchange,
-            Queue firstHeadersRoutingQueue,
-            RoutingConfig firstHeadersRoutingConfig
-    ) {
+    public Binding firstHeaderRouteBinding(HeadersExchange headersExchange, Queue firstHeadersRoutingQueue,
+            RoutingConfig firstHeadersRoutingConfig) {
         return BindingBuilder
                 .bind(firstHeadersRoutingQueue)
                 .to(headersExchange)
@@ -57,11 +54,8 @@ public class HeadersRoutingConfiguration {
     }
 
     @Bean
-    public Binding secondHeaderRouteBinding(
-            HeadersExchange headersExchange,
-            Queue secondHeadersRoutingQueue,
-            RoutingConfig secondHeadersRoutingConfig
-    ) {
+    public Binding secondHeaderRouteBinding(HeadersExchange headersExchange, Queue secondHeadersRoutingQueue,
+            RoutingConfig secondHeadersRoutingConfig) {
         return BindingBuilder
                 .bind(secondHeadersRoutingQueue)
                 .to(headersExchange)

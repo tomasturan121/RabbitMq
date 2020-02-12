@@ -1,4 +1,4 @@
-package com.ferratum.rabbit.configuration.config;
+package sk.qbsw.rabbitmq.configuration.config;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

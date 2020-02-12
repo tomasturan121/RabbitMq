@@ -1,4 +1,4 @@
-package com.ferratum.rabbit.client;
+package sk.qbsw.rabbitmq.client;
 
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.FanoutExchange;
@@ -10,8 +10,9 @@ import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
-import com.ferratum.rabbit.configuration.HeadersRoutingConfiguration;
+import sk.qbsw.rabbitmq.configuration.HeadersRoutingConfiguration;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -50,7 +51,7 @@ public class Sender {
      */
     public void sendSimple(String messageText) {
         log.info("Sending message with text: {}", messageText);
-        final Message message = new Message(messageText.getBytes(), createProperties());
+        final Message message = new Message(messageText.getBytes(), createProperties(null));
 
         rabbitTemplate.convertAndSend(simpleQueue.getName(), message);
         log.info("Message with text: {} has been send to Default Exchange of RabbitMQ", messageText);
@@ -64,7 +65,7 @@ public class Sender {
      */
     public void publish(String routingKey, String messageText) {
         log.info("Publishing message with text: {}", messageText);
-        final Message message = new Message(messageText.getBytes(), createProperties());
+        final Message message = new Message(messageText.getBytes(), createProperties(null));
 
         rabbitTemplate.convertAndSend(fanoutExchange.getName(), routingKey, message);
         log.info("Message with text: {} has been published to Fanout Exchange of RabbitMQ", messageText);
@@ -78,7 +79,7 @@ public class Sender {
      */
     public void directRoute(String routingKey, String messageText) {
         log.info("Sending message with routing key: {} and text: {}", routingKey, messageText);
-        final Message message = new Message(messageText.getBytes(), createProperties());
+        final Message message = new Message(messageText.getBytes(), createProperties(null));
 
         rabbitTemplate.convertAndSend(directExchange.getName(), routingKey, message);
         log.info("Message with routing key: {} and text: {} has been sent to Direct Exchange RabbitMQ", routingKey,
@@ -93,7 +94,7 @@ public class Sender {
      */
     public void topicRoute(String routingKey, String messageText) {
         log.info("Sending message with routing key: {} and text: {} to Topic Exchange", routingKey, messageText);
-        final Message message = new Message(messageText.getBytes(), createProperties());
+        final Message message = new Message(messageText.getBytes(), createProperties(null));
 
         rabbitTemplate.convertAndSend(topicExchange.getName(), routingKey, message);
         log.info("Message with routing key: {} and text: {} has been sent to Topic Exchange of RabbitMQ", routingKey,
@@ -109,13 +110,7 @@ public class Sender {
      */
     public void headerRoute(String routingKey, String messageText, String headerValue) {
         log.info("Sending message with header value: {} and text: {} to Headers Exchange", headerValue, messageText);
-
-        // create message properties with custom header
-        final MessageProperties messageProperties = new MessageProperties();
-        messageProperties.setContentType(MessageProperties.CONTENT_TYPE_TEXT_PLAIN);
-        messageProperties.setHeader(HeadersRoutingConfiguration.HEADER_NAME, headerValue);
-
-        final Message message = new Message(messageText.getBytes(), messageProperties);
+        final Message message = new Message(messageText.getBytes(), createProperties(headerValue));
 
         rabbitTemplate.convertAndSend(headersExchange.getName(), routingKey, message);
         log.info("Message with header value: {} and text: {} has been sent to Headers Exchange of RabbitMQ",
@@ -124,11 +119,17 @@ public class Sender {
 
     /**
      * method for creating simple message properties
+     *
+     * @param headerValue value of header
      * @return simple MessageProperties object
      */
-    private static MessageProperties createProperties() {
+    private static MessageProperties createProperties(String headerValue) {
         final MessageProperties messageProperties = new MessageProperties();
         messageProperties.setContentType(MessageProperties.CONTENT_TYPE_TEXT_PLAIN);
+
+        if (StringUtils.hasText(headerValue)) {
+            messageProperties.setHeader(HeadersRoutingConfiguration.HEADER_NAME, headerValue);
+        }
 
         return messageProperties;
     }

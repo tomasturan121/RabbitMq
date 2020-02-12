@@ -1,11 +1,11 @@
-package com.ferratum.rabbit.service;
+package sk.qbsw.rabbitmq.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ferratum.rabbit.api.RoutingRequest;
-import com.ferratum.rabbit.client.Receiver;
-import com.ferratum.rabbit.client.Sender;
+import sk.qbsw.rabbitmq.api.RoutingRequest;
+import sk.qbsw.rabbitmq.client.Receiver;
+import sk.qbsw.rabbitmq.client.Sender;
 
 import lombok.extern.slf4j.Slf4j;
 

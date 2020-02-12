@@ -1,4 +1,4 @@
-package com.ferratum.rabbit.configuration;
+package sk.qbsw.rabbitmq.configuration;
 
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
@@ -8,7 +8,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.ferratum.rabbit.configuration.config.RoutingConfig;
+import sk.qbsw.rabbitmq.configuration.config.RoutingConfig;
 
 
 @Configuration
@@ -42,11 +42,8 @@ public class DirectRoutingConfiguration {
     }
 
     @Bean
-    public Binding firstRoutingBinding(
-            DirectExchange directExchange,
-            Queue firstRoutingQueue,
-            RoutingConfig firstRoutingQueueConfig
-    ) {
+    public Binding firstRoutingBinding(DirectExchange directExchange, Queue firstRoutingQueue,
+            RoutingConfig firstRoutingQueueConfig) {
         return BindingBuilder
                 .bind(firstRoutingQueue)
                 .to(directExchange)
@@ -54,11 +51,8 @@ public class DirectRoutingConfiguration {
     }
 
     @Bean
-    public Binding secondRoutingBinding(
-            DirectExchange directExchange,
-            Queue secondRoutingQueue,
-            RoutingConfig secondRoutingQueueConfig
-    ) {
+    public Binding secondRoutingBinding(DirectExchange directExchange, Queue secondRoutingQueue,
+            RoutingConfig secondRoutingQueueConfig) {
         return BindingBuilder
                 .bind(secondRoutingQueue)
                 .to(directExchange)

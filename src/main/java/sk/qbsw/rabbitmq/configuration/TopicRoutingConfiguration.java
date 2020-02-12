@@ -1,4 +1,4 @@
-package com.ferratum.rabbit.configuration;
+package sk.qbsw.rabbitmq.configuration;
 
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
@@ -8,7 +8,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.ferratum.rabbit.configuration.config.RoutingConfig;
+import sk.qbsw.rabbitmq.configuration.config.RoutingConfig;
 
 @Configuration
 public class TopicRoutingConfiguration {
@@ -41,11 +41,8 @@ public class TopicRoutingConfiguration {
     }
 
     @Bean
-    public Binding firstTopicRouteBinding(
-            TopicExchange topicExchange,
-            Queue firstTopicRoutingQueue,
-            RoutingConfig firstTopicRoutingQueueConfig
-    ) {
+    public Binding firstTopicRouteBinding(TopicExchange topicExchange, Queue firstTopicRoutingQueue,
+            RoutingConfig firstTopicRoutingQueueConfig) {
         return BindingBuilder
                 .bind(firstTopicRoutingQueue)
                 .to(topicExchange)
@@ -53,11 +50,8 @@ public class TopicRoutingConfiguration {
     }
 
     @Bean
-    public Binding secondTopicRouteBinding(
-            TopicExchange topicExchange,
-            Queue secondTopicRoutingQueue,
-            RoutingConfig secondTopicRoutingQueueConfig
-    ) {
+    public Binding secondTopicRouteBinding(TopicExchange topicExchange, Queue secondTopicRoutingQueue,
+            RoutingConfig secondTopicRoutingQueueConfig) {
         return BindingBuilder
                 .bind(secondTopicRoutingQueue)
                 .to(topicExchange)
