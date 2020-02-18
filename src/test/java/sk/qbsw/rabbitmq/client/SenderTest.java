@@ -46,19 +46,27 @@ public class SenderTest {
         sender = new Sender(fanoutExchange, directExchange, topicExchange, headersExchange, rabbitTemplate);
     }
 
-//    @Test
-//    public void sendSimpleTest() {
-//        sender.sendSimple(MESSAGE_TEXT);
-//
-//        verify(rabbitTemplate).convertAndSend(queue.getName(), createTestMessage(null));
-//        verifyNoMoreInteractions(rabbitTemplate);
-//    }
+    @Test
+    public void sendSimpleTest() {
+        sender.sendSimple(queue.getName(), null, MESSAGE_TEXT);
+
+        verify(rabbitTemplate).convertAndSend(queue.getName(), createTestMessage(null, null));
+        verifyNoMoreInteractions(rabbitTemplate);
+    }
+
+    @Test
+    public void sendSimpleWithPriorityTest() {
+        sender.sendSimple(queue.getName(), 7, MESSAGE_TEXT);
+
+        verify(rabbitTemplate).convertAndSend(queue.getName(), createTestMessage(7, null));
+        verifyNoMoreInteractions(rabbitTemplate);
+    }
 
     @Test
     public void publishTest() {
         sender.publish(ROUTING_KEY, MESSAGE_TEXT);
 
-        verify(rabbitTemplate).convertAndSend(fanoutExchange.getName(), ROUTING_KEY, createTestMessage(null));
+        verify(rabbitTemplate).convertAndSend(fanoutExchange.getName(), ROUTING_KEY, createTestMessage(null, null));
         verifyNoMoreInteractions(rabbitTemplate);
     }
 
@@ -66,7 +74,7 @@ public class SenderTest {
     public void directRouteTest() {
         sender.directRoute(ROUTING_KEY, MESSAGE_TEXT);
 
-        verify(rabbitTemplate).convertAndSend(directExchange.getName(), ROUTING_KEY, createTestMessage(null));
+        verify(rabbitTemplate).convertAndSend(directExchange.getName(), ROUTING_KEY, createTestMessage(null, null));
         verifyNoMoreInteractions(rabbitTemplate);
     }
 
@@ -74,7 +82,7 @@ public class SenderTest {
     public void topicRouteTest() {
         sender.topicRoute(ROUTING_KEY, MESSAGE_TEXT);
 
-        verify(rabbitTemplate).convertAndSend(topicExchange.getName(), ROUTING_KEY, createTestMessage(null));
+        verify(rabbitTemplate).convertAndSend(topicExchange.getName(), ROUTING_KEY, createTestMessage(null, null));
         verifyNoMoreInteractions(rabbitTemplate);
     }
 
@@ -84,14 +92,19 @@ public class SenderTest {
 
         sender.headerRoute(null, MESSAGE_TEXT, headerValue);
 
-        verify(rabbitTemplate).convertAndSend(headersExchange.getName(), null, createTestMessage(headerValue));
+        verify(rabbitTemplate).convertAndSend(headersExchange.getName(), null, createTestMessage(null, headerValue));
         verifyNoMoreInteractions(rabbitTemplate);
     }
 
-    private static Message createTestMessage(String headerValue) {
+    private static Message createTestMessage(Integer priority, String headerValue) {
         MessageProperties properties = new MessageProperties();
 
         properties.setContentType(MessageProperties.CONTENT_TYPE_TEXT_PLAIN);
+
+        if (priority != null) {
+            properties.setPriority(priority);
+        }
+
         if (StringUtils.hasText(headerValue)) {
             properties.setHeader(HeadersRoutingConfiguration.HEADER_NAME, headerValue);
         }

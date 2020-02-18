@@ -60,7 +60,7 @@ public class Sender {
      */
     public void publish(String routingKey, String messageText) {
         log.info("Publishing message with text: {}", messageText);
-        final Message message = new Message(messageText.getBytes(), createProperties(null,null));
+        final Message message = new Message(messageText.getBytes(), createProperties(null, null));
 
         rabbitTemplate.convertAndSend(fanoutExchange.getName(), routingKey, message);
         log.info("Message with text: {} has been published to Fanout Exchange of RabbitMQ", messageText);
@@ -74,7 +74,7 @@ public class Sender {
      */
     public void directRoute(String routingKey, String messageText) {
         log.info("Sending message with routing key: {} and text: {}", routingKey, messageText);
-        final Message message = new Message(messageText.getBytes(), createProperties(null,null));
+        final Message message = new Message(messageText.getBytes(), createProperties(null, null));
 
         rabbitTemplate.convertAndSend(directExchange.getName(), routingKey, message);
         log.info("Message with routing key: {} and text: {} has been sent to Direct Exchange RabbitMQ", routingKey,
@@ -89,7 +89,7 @@ public class Sender {
      */
     public void topicRoute(String routingKey, String messageText) {
         log.info("Sending message with routing key: {} and text: {} to Topic Exchange", routingKey, messageText);
-        final Message message = new Message(messageText.getBytes(), createProperties(null,null));
+        final Message message = new Message(messageText.getBytes(), createProperties(null, null));
 
         rabbitTemplate.convertAndSend(topicExchange.getName(), routingKey, message);
         log.info("Message with routing key: {} and text: {} has been sent to Topic Exchange of RabbitMQ", routingKey,
@@ -105,7 +105,7 @@ public class Sender {
      */
     public void headerRoute(String routingKey, String messageText, String headerValue) {
         log.info("Sending message with header value: {} and text: {} to Headers Exchange", headerValue, messageText);
-        final Message message = new Message(messageText.getBytes(), createProperties(headerValue,null));
+        final Message message = new Message(messageText.getBytes(), createProperties(headerValue, null));
 
         rabbitTemplate.convertAndSend(headersExchange.getName(), routingKey, message);
         log.info("Message with header value: {} and text: {} has been sent to Headers Exchange of RabbitMQ",
@@ -121,8 +121,11 @@ public class Sender {
     private static MessageProperties createProperties(String headerValue, Integer priority) {
         final MessageProperties messageProperties = new MessageProperties();
         messageProperties.setContentType(MessageProperties.CONTENT_TYPE_TEXT_PLAIN);
+
         // setting message priority
-        messageProperties.setPriority(priority);
+        if (priority != null) {
+            messageProperties.setPriority(priority);
+        }
 
         if (StringUtils.hasText(headerValue)) {
             messageProperties.setHeader(HeadersRoutingConfiguration.HEADER_NAME, headerValue);
