@@ -43,16 +43,16 @@ public class SenderTest {
         headersExchange = new HeadersExchange("headers_exchange");
         queue = new Queue("queue");
 
-        sender = new Sender(fanoutExchange, directExchange, topicExchange, headersExchange, queue, rabbitTemplate);
+        sender = new Sender(fanoutExchange, directExchange, topicExchange, headersExchange, rabbitTemplate);
     }
 
-    @Test
-    public void sendSimpleTest() {
-        sender.sendSimple(MESSAGE_TEXT);
-
-        verify(rabbitTemplate).convertAndSend(queue.getName(), createTestMessage(null));
-        verifyNoMoreInteractions(rabbitTemplate);
-    }
+//    @Test
+//    public void sendSimpleTest() {
+//        sender.sendSimple(MESSAGE_TEXT);
+//
+//        verify(rabbitTemplate).convertAndSend(queue.getName(), createTestMessage(null));
+//        verifyNoMoreInteractions(rabbitTemplate);
+//    }
 
     @Test
     public void publishTest() {

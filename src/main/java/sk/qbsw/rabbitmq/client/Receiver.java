@@ -22,9 +22,9 @@ public class Receiver {
         this.rabbitTemplate = rabbitTemplate;
     }
 
-    public String simpleRead() {
-        final Message message = rabbitTemplate.receive(simpleQueue.getName());
-        log.info("Message read from simple queue: {}", message);
+    public String simpleRead(String queueName) {
+        final Message message = rabbitTemplate.receive(queueName);
+        log.info("Message read from queue: {}: {}", queueName, message);
         return (message == null) ? "No message text found!" : new String(message.getBody());
     }
 
