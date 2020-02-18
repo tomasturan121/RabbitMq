@@ -1,16 +1,16 @@
 package sk.qbsw.rabbitmq;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import sk.qbsw.rabbitmq.api.RoutingRequest;
-import sk.qbsw.rabbitmq.service.SenderService;
-
 import lombok.extern.slf4j.Slf4j;
+import sk.qbsw.rabbitmq.api.RoutingRequest;
+import sk.qbsw.rabbitmq.api.SimpleReadRequest;
+import sk.qbsw.rabbitmq.api.SimpleSenderRequest;
+import sk.qbsw.rabbitmq.service.SenderService;
 
 @Slf4j
 @RestController
@@ -24,13 +24,13 @@ public class Endpoint {
         this.senderService = senderService;
     }
 
-    @GetMapping("/readSimple")
-    public String readSimple() {
-        return senderService.readSimple();
+    @PostMapping("/readSimple")
+    public String readSimple(@RequestBody SimpleReadRequest request) {
+        return senderService.readSimple(request);
     }
 
     @PostMapping("/sendSimple")
-    public void send(@RequestBody RoutingRequest request) {
+    public void send(@RequestBody SimpleSenderRequest request) {
         senderService.sendSimple(request);
     }
 
