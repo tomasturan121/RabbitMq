@@ -29,7 +29,7 @@ public class HeadersRoutingConfiguration {
 
     @Bean
     public HeadersExchange headersExchange() {
-        return new HeadersExchange("headers_exchange", Boolean.TRUE, Boolean.FALSE);
+        return new HeadersExchange("headers_exchange");
     }
 
     @Bean

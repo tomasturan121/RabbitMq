@@ -1,7 +1,6 @@
 package sk.qbsw.rabbitmq.client;
 
 import org.springframework.amqp.core.Message;
-import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +12,10 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class Receiver {
 
-    private final Queue simpleQueue;
     private final RabbitTemplate rabbitTemplate;
 
     @Autowired
-    public Receiver(Queue simpleQueue, RabbitTemplate rabbitTemplate) {
-        this.simpleQueue = simpleQueue;
+    public Receiver(RabbitTemplate rabbitTemplate) {
         this.rabbitTemplate = rabbitTemplate;
     }
 
